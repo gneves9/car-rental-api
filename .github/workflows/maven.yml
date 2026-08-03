@@ -24,4 +24,4 @@ jobs:
         cache: maven 
 
     - name: Executar os Testes e Compilar
-      run: ./mvnw clean verify # O comando que corre os testes e verifica se tudo compila
+      run: chmod +x mvnw && ./mvnw clean verify
