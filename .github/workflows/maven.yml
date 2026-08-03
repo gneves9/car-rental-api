@@ -1,0 +1,27 @@
+name: Java CI with Maven
+
+# Quando é que este robô deve trabalhar?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# O que é que ele vai fazer?
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest 
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    - name: Configurar o Java 21 (JDK)
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven 
+
+    - name: Executar os Testes e Compilar
+      run: chmod +x mvnw && ./mvnw clean verify
