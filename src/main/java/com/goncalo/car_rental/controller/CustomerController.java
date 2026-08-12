@@ -30,7 +30,7 @@ public class CustomerController {
         } catch (DataIntegrityViolationException ex) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Já existe um cliente com este email registado",
+                    "Já existe um cliente com este email ou carta de condução registados",
                     ex
             );
         }
