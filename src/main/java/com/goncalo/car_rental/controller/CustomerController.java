@@ -25,6 +25,9 @@ public class CustomerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Customer createCustomer(@RequestBody Customer customer) {
+        if (customer.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O campo 'id' não deve ser enviado ao criar um cliente");
+        }
         try {
             return customerRepository.save(customer);
         } catch (DataIntegrityViolationException ex) {
