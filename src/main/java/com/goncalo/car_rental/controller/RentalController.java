@@ -23,7 +23,13 @@ public class RentalController {
                                @RequestParam LocalDate startDate, 
                                @RequestParam LocalDate endDate) {
         
-        // Passa os dados recebidos pelo URL diretamente para a nossa regra de negócio
-        return rentalService.createRental(carId, customerId, startDate, endDate);
+        try {
+            return rentalService.createRental(carId, customerId, startDate, endDate);
+        } catch (IllegalArgumentException ex) {
+            HttpStatus status = (ex.getMessage() != null && ex.getMessage().contains("não encontrado"))
+                    ? HttpStatus.NOT_FOUND
+                    : HttpStatus.BAD_REQUEST;
+            throw new org.springframework.web.server.ResponseStatusException(status, ex.getMessage(), ex);
+        }
     }
 }
