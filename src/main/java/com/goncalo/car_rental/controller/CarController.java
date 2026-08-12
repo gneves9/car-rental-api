@@ -26,6 +26,14 @@ public class CarController {
     @ResponseStatus(HttpStatus.CREATED) // Devolve o código HTTP 201 (Created) em vez de 200 (OK)
     public Car createCar(@RequestBody Car car) {
         // @RequestBody converte o JSON que o cliente enviou num objeto Java "Car"
-        return carRepository.save(car);
+        try {
+            return carRepository.save(car);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw new org.springframework.web.server.ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Já existe um carro com a mesma matrícula (licensePlate)",
+                    ex
+            );
+        }
     }
 }
